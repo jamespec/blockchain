@@ -22,4 +22,7 @@ app.get('/', logger, (req, res) => {
 const users = require('./routes/users')
 app.use('/users', users )
 
+const box = require('./routes/box')
+app.use('/box', box )
+
 app.listen(3000)

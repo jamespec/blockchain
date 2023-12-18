@@ -19,15 +19,21 @@ async function main() {
   await lock.waitForDeployment();
 
   console.log(
-    `Lock with ${ethers.formatEther(
+    `Lock with ${hre.ethers.formatEther(
       lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
+    )}ETH and unlock timestamp ${unlockTime} deployed to ${await lock.getAddress()}`
   );
+
+  const Box = await hre.ethers.getContractFactory('Box');
+  console.log('Deploying Box...');
+  const box = await Box.deploy();
+  await box.waitForDeployment();
+  console.log('Box deployed to:', await box.getAddress());
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });
