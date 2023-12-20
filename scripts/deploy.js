@@ -24,11 +24,11 @@ async function main() {
   //   )}ETH and unlock timestamp ${unlockTime} deployed to ${await lock.getAddress()}`
   // );
 
-  const BoxRegistry = await hre.ethers.getContractFactory('BoxRegistry');
-  console.log('Deploying BoxRegistry...');
-  const boxRegistry = await BoxRegistry.deploy();
-  await boxRegistry.waitForDeployment();
-  console.log('BoxRegistry deployed to:', await boxRegistry.getAddress());
+  const ContractRegistry = await hre.ethers.getContractFactory('ContractRegistry');
+  console.log('Deploying ContractRegistry...');
+  const registry = await ContractRegistry.deploy();
+  await registry.waitForDeployment();
+  console.log('ContractRegistry deployed to:', await registry.getAddress());
 }
 
 main()
