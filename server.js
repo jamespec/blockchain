@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const sqlite3 = require('sqlite3').verbose();
+
 app.use(express.static("public"))               // Serve static pages
 app.use(express.urlencoded({extended: true}))   // Decodes format to access elements.
 app.use(express.json())                         // Parse JSON received from the client.
@@ -19,10 +21,13 @@ app.get('/', logger, (req, res) => {
     res.render('index', { text: "world" })
 })
 
-const users = require('./routes/users')
-app.use('/users', users )
-
 const box = require('./routes/box')
 app.use('/box', box )
+
+const account = require('./routes/account')
+app.use('/account', account )
+
+const fund = require('./routes/fund')
+app.use('/fund', fund )
 
 app.listen(3000)

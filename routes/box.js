@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const ethers = require('ethers')
-const ABI = require('./Box.json')
+const boxABI = require('./Box.json')
 
 const boxAddress = '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512'
 
@@ -33,13 +33,13 @@ router.get('/store', async (req, res) => {
 router.get('/retrieve', async (req, res) => {
     // Set up an ethers contract, representing our deployed Box instance
     const provider = new ethers.JsonRpcProvider()
-    const signer = provider.getSigner()
-    
-    const Box = new ethers.provider.getContractFactory('Box')
-    const box = await Box.attach( boxAddress )
 
-    // Retrieve accounts from the local node
-    const value = await box.retrieve()
+    const simpleABI = [
+        "function retrieve() view returns (uint256)"
+    ]
+    const boxContract = new ethers.Contract(boxAddress, simpleABI, provider)
+    const value = await boxContract.retrieve()
+
     console.log(value)
 
    res.send(`Retreived value: ${value}` )
