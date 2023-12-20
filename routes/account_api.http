@@ -30,7 +30,7 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3000/account
+GET http://localhost:3000/box
 
 ###
 

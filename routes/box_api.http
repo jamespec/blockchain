@@ -1,0 +1,49 @@
+POST http://localhost:3000/box HTTP/1.1
+content-type: application/json
+
+{
+    "boxName": "First"
+}
+
+###
+POST http://localhost:3000/box HTTP/1.1
+content-type: application/json
+
+{
+    "boxName": "Second"
+}
+
+###
+GET http://localhost:3000/box/address/First
+
+###
+GET http://localhost:3000/box/address/Second
+
+###
+GET http://localhost:3000/box/First
+
+###
+
+PUT http://localhost:3000/box/First
+content-type: application/json
+
+{
+    "value": 41
+}
+
+###
+GET http://localhost:3000/box/Second
+
+###
+
+PUT http://localhost:3000/box/Second
+content-type: application/json
+
+{
+    "value": 32
+}
+
+###
+GET http://localhost:3000/box/Third
+
+###

@@ -7,28 +7,28 @@
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  // const currentTimestampInSeconds = Math.round(Date.now() / 1000);
+  // const unlockTime = currentTimestampInSeconds + 60;
 
-  const lockedAmount = hre.ethers.parseEther("0.001");
+  // const lockedAmount = hre.ethers.parseEther("0.001");
 
-  const lock = await hre.ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  // const lock = await hre.ethers.deployContract("Lock", [unlockTime], {
+  //   value: lockedAmount,
+  // });
 
-  await lock.waitForDeployment();
+  // await lock.waitForDeployment();
 
-  console.log(
-    `Lock with ${hre.ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${await lock.getAddress()}`
-  );
+  // console.log(
+  //   `Lock with ${hre.ethers.formatEther(
+  //     lockedAmount
+  //   )}ETH and unlock timestamp ${unlockTime} deployed to ${await lock.getAddress()}`
+  // );
 
-  const Box = await hre.ethers.getContractFactory('Box');
-  console.log('Deploying Box...');
-  const box = await Box.deploy();
-  await box.waitForDeployment();
-  console.log('Box deployed to:', await box.getAddress());
+  const BoxRegistry = await hre.ethers.getContractFactory('BoxRegistry');
+  console.log('Deploying BoxRegistry...');
+  const boxRegistry = await BoxRegistry.deploy();
+  await boxRegistry.waitForDeployment();
+  console.log('BoxRegistry deployed to:', await boxRegistry.getAddress());
 }
 
 main()
