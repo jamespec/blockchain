@@ -64,13 +64,16 @@ router.get('/:boxName', async (req, res) => {
     const boxAddress = await boxRegistryContract.boxAddress( boxName )
     console.log( `Box ${boxName} at ${boxAddress}`)
 
-//    const wallet = new ethers.Wallet(privateKey, provider);
-    const Box = await ethers.ContractFactory.fromSolidity(boxABI, provider)
-    const boxContract = new ethers.Contract(boxAddress, Box.interface, provider)
-    const value = await boxContract.retrieve()
-    console.log(value)
+    if( boxAddress != '0x0000000000000000000000000000000000000000' ) {
+        const Box = await ethers.ContractFactory.fromSolidity(boxABI, provider)
+        const boxContract = new ethers.Contract(boxAddress, Box.interface, provider)
+        const value = await boxContract.retrieve()
+        console.log(value)
 
-    res.send(`Retreived value ${value} from box ${boxName} as ${boxAddress}` )
+        res.send(`Retreived value ${value} from box ${boxName} as ${boxAddress}` )
+    }
+    else
+        return res.status(400).json({ error: "boxName not registered" })
 })
 
 router.put('/:boxName', async (req, res) => {
