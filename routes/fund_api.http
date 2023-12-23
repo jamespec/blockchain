@@ -2,8 +2,9 @@ POST http://localhost:3000/fund HTTP/1.1
 content-type: application/json
 
 {
-    "CUSIP": "CUS912324A4",
-    "description": "Short Term Treasuries",
+    "securityId": "857492557",
+    "fundNumber": "X9X9USD01ZI1",
+    "fundName": "STATE STREET INSTL TREAS PLUS 5327",
     "deployAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
 }
 
@@ -13,8 +14,9 @@ POST http://localhost:3000/fund HTTP/1.1
 content-type: application/json
 
 {
-    "CUSIP": "CUS111111A1",
-    "description": "Short Term Treasuries",
+    "securityId": "38141W273",
+    "fundNumber": "X9X9USDGLDS1",
+    "fundName": "GOLDMAN FS GOVT INST 465",
     "deployAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
 }
 
@@ -24,8 +26,33 @@ POST http://localhost:3000/fund HTTP/1.1
 content-type: application/json
 
 {
-    "CUSIP": "CUS222222A2",
-    "description": "TBILLS",
+    "securityId": "61747C848",
+    "fundNumber": "X9X9USD02EY1",
+    "fundName": "MORGAN STANLEY INS LIQ GOV SEC 8",
+    "deployAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
+}
+
+###
+
+POST http://localhost:3000/fund HTTP/1.1
+content-type: application/json
+
+{
+    "securityId": "85749T517",
+    "fundNumber": "X9X9USD04JX8",
+    "fundName": "STATE STREET GOVT OPP 6764",
+    "deployAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
+}
+
+###
+
+POST http://localhost:3000/fund HTTP/1.1
+content-type: application/json
+
+{
+    "securityId": "09248U718",
+    "fundNumber": "X9X9USDBLKR9",
+    "fundName": "BLOCKLROCK LIQUIDITY T FUND INSTL 30",
     "deployAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
 }
 
@@ -35,28 +62,30 @@ GET http://localhost:3000/fund
 
 ###
 
-GET http://localhost:3000/fund/CUS111111A1
+GET http://localhost:3000/fund/09248U718
 
 ###
 
-PUT http://localhost:3000/fund/CUS912324A4 HTTP/1.1
+PUT http://localhost:3000/fund/09248U718 HTTP/1.1
 content-type: application/json
 
 {
-    "description": "CORPORATES",
-    "deployAddress": "0xda19b916df49add75e8b21939c83ccd094ff6cf9"
+    "fundNumber": "Diff Number",
+    "fundName": "Diff Name",
+    "deployAddress": "Diff Address"
 }
 
 ###
 
-PUT http://localhost:3000/fund/CUS912324A4 HTTP/1.1
+PUT http://localhost:3000/fund/09248U718 HTTP/1.1
 content-type: application/json
 
 {
-    "description": "MMF",
-    "deployAddress": "0xbDA5747bFD65F08deb54cb465eB87D40e51B197E"
+    "fundNumber": "X9X9USDBLKR9",
+    "fundName": "BLOCKLROCK LIQUIDITY T FUND INSTL 30",
+    "deployAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
 }
 
 ###
-DELETE http://localhost:3000/fund/CUS111111A1 HTTP/1.1
+DELETE http://localhost:3000/fund/09248U718 HTTP/1.1
 

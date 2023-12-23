@@ -2,8 +2,9 @@ POST http://localhost:3000/account HTTP/1.1
 content-type: application/json
 
 {
-    "fsrAccount": 123,
-    "name": "John Doe",
+    "fsrAccount": 310034278400,
+    "name": "ALLSTATE RETIREMENT SECLEND COLLAT",
+    "currency": "USD",
     "walletAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
 }
 
@@ -13,50 +14,54 @@ POST http://localhost:3000/account HTTP/1.1
 content-type: application/json
 
 {
-    "fsrAccoun": 200,
-    "name": "Jane Doe",
-    "walletAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
-}
-
-###
-
-POST http://localhost:3000/account HTTP/1.1
-content-type: application/json
-
-{
-    "fsrAccount": 210,
-    "name": "Bob Jones",
+    "fsrAccount": 311345968400,
+    "name": "GATX CORPORATION",
+    "currency": "USD",
     "walletAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3"
 }
 
 ###
-GET http://localhost:3000/box
-
-###
-
-GET http://localhost:3000/account/200
-
-###
-
-PUT http://localhost:3000/account/123 HTTP/1.1
+POST http://localhost:3000/account HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Maryjayne Doe",
+    "fsrAccount": 312969818400,
+    "name": "TELEDYNE TECHNOLOGIES INCORPORATED",
+    "currency": "USD",
+    "walletAddress": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199"
+}
+
+###
+
+GET http://localhost:3000/account
+
+###
+
+GET http://localhost:3000/account/312969818400
+
+###
+
+PUT http://localhost:3000/account/312969818400 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Different Name",
+    "currency": "XXX",
     "walletAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
 }
 
 ###
 
-PUT http://localhost:3000/account/123 HTTP/1.1
+PUT http://localhost:3000/account/312969818400 HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Jane Doe",
-    "walletAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
+    "name": "TELEDYNE TECHNOLOGIES INCORPORATED",
+    "currency": "USD",
+    "walletAddress": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199"
 }
 
 ###
-DELETE http://localhost:3000/account/211 HTTP/1.1
+DELETE http://localhost:3000/account/312969818400 HTTP/1.1
 
 ###

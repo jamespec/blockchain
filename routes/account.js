@@ -5,7 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 // Open or create the sqlite3 database.
 // Create the accounts table if it doesn't exist.
 const db = new sqlite3.Database('transfer_agent.db');
-db.run('CREATE TABLE IF NOT EXISTS accounts ( fsrAccount INTEGER PRIMARY KEY, name TEXT, walletAddress TEXT );', [], (err) => {
+db.run('CREATE TABLE IF NOT EXISTS accounts ( fsrAccount INTEGER PRIMARY KEY, name TEXT, currency TEXT, walletAddress TEXT );', [], (err) => {
   if (err) {
     console.log("Unable to to open sqlite3 database: 'transfer_agent.db'")
   }
@@ -18,12 +18,12 @@ const router = express.Router();
 
 // Create a new record
 router.post('/', (req, res) => {
-  const { fsrAccount, name, walletAddress } = req.body
+  const { fsrAccount, name, currency, walletAddress } = req.body
 
-  if( fsrAccount && name && walletAddress ) {
+  if( fsrAccount && name && currency && walletAddress ) {
     // Insert data into the table
-    let query = 'INSERT INTO accounts (fsrAccount, name, walletAddress) VALUES (?, ?, ?)'
-    db.run(query, [fsrAccount, name, walletAddress], (err) => {
+    let query = 'INSERT INTO accounts (fsrAccount, name, currency, walletAddress) VALUES (?, ?, ?, ?)'
+    db.run(query, [fsrAccount, name, currency, walletAddress], (err) => {
       if (err) {
         return res.status(500).json({ error: err.message })
       }
@@ -72,12 +72,12 @@ router.get('/:id', (req, res) => {
 // Update a record by ID
 router.put('/:id', (req, res) => {
   const fsrAccount = req.params.id
-  const { name, walletAddress } = req.body
+  const { name, currency, walletAddress } = req.body
 
-  if( fsrAccount && name && walletAddress ) {
+  if( fsrAccount && name && currency && walletAddress ) {
     // NOTE: the async function is require to retrieve the updated row count!
-    let query = 'UPDATE accounts SET name = ?, walletAddress = ? WHERE fsrAccount = ?'
-    db.run(query, [name, walletAddress, fsrAccount], async function (err) {
+    let query = 'UPDATE accounts SET name = ?, currency = ?, walletAddress = ? WHERE fsrAccount = ?'
+    db.run(query, [name, currency, walletAddress, fsrAccount], async function (err) {
       if (err) {
         return res.status(500).json({ error: err.message })
       }

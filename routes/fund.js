@@ -5,7 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 // Open or create the sqlite3 database.
 // Create the funds table if it doesn't exist.
 const db = new sqlite3.Database('transfer_agent.db');
-db.run('CREATE TABLE IF NOT EXISTS funds ( CUSIP TEXT PRIMARY KEY, description TEXT, deployAddress TEXT );', [], (err) => {
+db.run('CREATE TABLE IF NOT EXISTS funds ( securityId TEXT PRIMARY KEY, fundNumber TEXT, fundName Text, deployAddress TEXT );', [], (err) => {
   if (err) {
     console.log("Unable to to open sqlite3 database: 'transfer_agent.db'")
   }
@@ -16,11 +16,11 @@ const router = express.Router();
 
 // Create a new record
 router.post('/', (req, res) => {
-  const { CUSIP, description, deployAddress } = req.body
+  const { securityId, fundNumber, fundName, deployAddress } = req.body
 
-  if( CUSIP && description && deployAddress ) {
-    let query = 'INSERT INTO funds (CUSIP, description, deployAddress) VALUES (?, ?, ?)'
-    db.run(query, [CUSIP, description, deployAddress], (err) => {
+  if( securityId && fundNumber && fundName && deployAddress ) {
+    let query = 'INSERT INTO funds (securityId, fundNumber, fundName, deployAddress) VALUES (?, ?, ?, ?)'
+    db.run(query, [securityId, fundNumber, fundName, deployAddress], (err) => {
       if (err) {
         return res.status(500).json({ error: err.message })
       }
@@ -46,10 +46,10 @@ router.get('/', (req, res) => {
 
 // Read a specific record by ID
 router.get('/:id', (req, res) => {
-  const CUSIP = req.params.id;
+  const securityId = req.params.id;
 
-  if( CUSIP ) {
-    db.get('SELECT * FROM funds WHERE CUSIP = ?', [CUSIP], (err, row) => {
+  if( securityId ) {
+    db.get('SELECT * FROM funds WHERE securityId = ?', [securityId], (err, row) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
@@ -67,13 +67,13 @@ router.get('/:id', (req, res) => {
 
 // Update a record by ID
 router.put('/:id', (req, res) => {
-  const CUSIP = req.params.id
-  const { description, deployAddress } = req.body
+  const securityId = req.params.id
+  const { fundNumber, fundName, deployAddress } = req.body
 
-  if( CUSIP && description && deployAddress ) {
+  if( securityId && fundNumber && fundName && deployAddress ) {
     // NOTE: the async function is require to retrieve the updated row count!
-    let query = 'UPDATE funds SET description = ?, deployAddress = ? WHERE CUSIP = ?'
-    db.run(query, [description, deployAddress, CUSIP], async function (err) {
+    let query = 'UPDATE funds SET fundNumber = ?, fundName = ?, deployAddress = ? WHERE securityId = ?'
+    db.run(query, [fundNumber, fundName, deployAddress, securityId], async function (err) {
       if (err) {
         return res.status(500).json({ error: err.message })
       }
@@ -87,11 +87,11 @@ router.put('/:id', (req, res) => {
 
 // Delete a record by ID
 router.delete('/:id', (req, res) => {
-  const CUSIP = req.params.id
+  const securityId = req.params.id
 
-  if( CUSIP ) {
+  if( securityId ) {
     // NOTE: the async function is required to retrieve the deleted row count!
-    db.run('DELETE FROM funds WHERE CUSIP = ?', [CUSIP], async function (err) {
+    db.run('DELETE FROM funds WHERE securityId = ?', [securityId], async function (err) {
       if (err) {
         return res.status(500).json({ error: err.message })
       }
