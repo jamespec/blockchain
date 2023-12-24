@@ -30,4 +30,7 @@ app.use('/account', account )
 const fund = require('./routes/fund')
 app.use('/fund', fund )
 
+const instruction = require('./routes/instruction')
+app.use('/instruction', instruction )
+
 app.listen(3000)

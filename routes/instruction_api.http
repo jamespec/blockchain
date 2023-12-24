@@ -1,0 +1,104 @@
+# 1
+POST http://localhost:3000/instruction HTTP/1.1
+content-type: application/json
+
+{
+    "action": "B",
+    "amount": 5000,
+    "securityId": "38141W273",
+    "fsrAccount": "310034278400",
+    "tradeDate": "2023-12-26"
+}
+
+###
+
+# 2
+POST http://localhost:3000/instruction HTTP/1.1
+content-type: application/json
+
+{
+    "action": "B",
+    "amount": 3000,
+    "securityId": "38141W273",
+    "fsrAccount": "310034278400",
+    "tradeDate": "2023-12-26"
+}
+
+###
+
+# 3
+POST http://localhost:3000/instruction HTTP/1.1
+content-type: application/json
+
+{
+    "action": "S",
+    "amount": 7000,
+    "securityId": "38141W273",
+    "fsrAccount": "310034278400",
+    "tradeDate": "2023-12-26"
+}
+
+###
+
+# 4
+POST http://localhost:3000/instruction HTTP/1.1
+content-type: application/json
+
+{
+    "action": "B",
+    "amount": 72000,
+    "securityId": "09248U718",
+    "fsrAccount": "311345968400",
+    "tradeDate": "2023-12-26"
+}
+
+###
+
+# 5
+POST http://localhost:3000/instruction HTTP/1.1
+content-type: application/json
+
+{
+    "action": "B",
+    "amount": 172000,
+    "securityId": "85749T517",
+    "fsrAccount": "311345968400",
+    "tradeDate": "2023-12-26"
+}
+
+###
+
+GET http://localhost:3000/instruction
+
+###
+
+GET http://localhost:3000/instruction/5
+
+###
+
+PUT http://localhost:3000/instruction/5 HTTP/1.1
+content-type: application/json
+
+{
+    "action": "X",
+    "amount": 17,
+    "securityId": "XXXXXXXX",
+    "fsrAccount": "XXXXXXXX",
+    "tradeDate": "2024-11-22"
+}
+
+###
+
+PUT http://localhost:3000/instruction/5 HTTP/1.1
+content-type: application/json
+
+{
+    "action": "B",
+    "amount": 172000,
+    "securityId": "85749T517",
+    "fsrAccount": "311345968400",
+    "tradeDate": "2023-12-26"
+}
+
+###
+DELETE http://localhost:3000/instruction/5 HTTP/1.1
