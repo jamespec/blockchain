@@ -43,7 +43,7 @@ router.get('/', (req, res) => {
       return res.status(500).json({ error: err.message })
     }
 
-    res.json({ data: rows })
+    res.json( rows )
   })
 });
 
@@ -62,7 +62,7 @@ router.get('/:id', (req, res) => {
         return res.status(404).json({ message: 'Record not found' })
       }
 
-      res.json({ data: row })
+      res.json( row )
     });
   }
   else
@@ -74,6 +74,7 @@ router.put('/:id', (req, res) => {
   const fsrAccount = req.params.id
   const { name, currency, walletAddress } = req.body
 
+  console.log(`Attempting update with id: ${fsrAccount}` )
   if( fsrAccount && name && currency && walletAddress ) {
     // NOTE: the async function is require to retrieve the updated row count!
     let query = 'UPDATE accounts SET name = ?, currency = ?, walletAddress = ? WHERE fsrAccount = ?'

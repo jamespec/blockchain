@@ -25,12 +25,12 @@ const box = require('./routes/box')
 app.use('/box', box )
 
 const account = require('./routes/account')
-app.use('/account', account )
+app.use('/api/account', account )
 
 const fund = require('./routes/fund')
-app.use('/fund', fund )
+app.use('/api/fund', fund )
 
 const instruction = require('./routes/instruction')
-app.use('/instruction', instruction )
+app.use('/api/instruction', instruction )
 
 app.listen(3000)

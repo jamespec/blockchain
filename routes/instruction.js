@@ -76,7 +76,7 @@ router.get('/', (req, res) => {
             return res.status(500).json({ error: err.message })
         }
 
-        res.json({ data: rows })
+        res.json( rows )
     })
 })
 
@@ -94,7 +94,7 @@ router.get('/:id', (req, res) => {
                 return res.status(404).json({ message: 'Record not found' });
             }
 
-            res.json({ data: row });
+            res.json( row );
         })
     }
     else
