@@ -33,4 +33,7 @@ app.use('/api/fund', fund )
 const instruction = require('./routes/instruction')
 app.use('/api/instruction', instruction )
 
+const save = require('./routes/save')
+app.use('/api/save', save )
+
 app.listen(3000)

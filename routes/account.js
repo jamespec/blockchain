@@ -1,35 +1,24 @@
 // Import required modules
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+const fs = require('node:fs');
 
-// Open or create the sqlite3 database.
-// Create the accounts table if it doesn't exist.
-const db = new sqlite3.Database('transfer_agent.db');
-db.run('CREATE TABLE IF NOT EXISTS accounts ( fsrAccount INTEGER PRIMARY KEY, name TEXT, currency TEXT, walletAddress TEXT );', [], (err) => {
-  if (err) {
-    console.log("Unable to to open sqlite3 database: 'transfer_agent.db'")
-  }
-});
+let accountData = [{}]
+try {
+  accountData = JSON.parse(fs.readFileSync("./data/accounts.json"));
+} catch (err) {
+  console.error(err);
+}
 
 // Create an Express router
 const router = express.Router();
-
-// Define routes for CRUD operations
 
 // Create a new record
 router.post('/', (req, res) => {
   const { fsrAccount, name, currency, walletAddress } = req.body
 
-  if( fsrAccount && name && currency && walletAddress ) {
-    // Insert data into the table
-    let query = 'INSERT INTO accounts (fsrAccount, name, currency, walletAddress) VALUES (?, ?, ?, ?)'
-    db.run(query, [fsrAccount, name, currency, walletAddress], (err) => {
-      if (err) {
-        return res.status(500).json({ error: err.message })
-      }
-
-      res.json({ message: 'Record created successfully' })
-    })
+  if (fsrAccount && name && currency && walletAddress) {
+    accountData.push({ fsrAccount: fsrAccount, name: name, currency: currency, walletAddress: walletAddress })
+    res.json({ message: 'Record created successfully' })
   }
   else
     return res.status(400).json({ error: "Invalid or missing parameter" })
@@ -37,33 +26,21 @@ router.post('/', (req, res) => {
 
 // Read all records
 router.get('/', (req, res) => {
-  // Retrieve all data from the table
-  db.all('SELECT * FROM accounts', (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: err.message })
-    }
-
-    res.json( rows )
-  })
+  res.json(accountData)
 });
 
 // Read a specific record by ID
 router.get('/:id', (req, res) => {
   const fsrAccount = req.params.id
 
-  if( fsrAccount ) {
-    // Retrieve data for a specific ID from the table
-    db.get('SELECT * FROM accounts WHERE fsrAccount = ?', [fsrAccount], (err, row) => {
-      if (err) {
-        return res.status(500).json({ error: err.message })
-      }
+  if (fsrAccount) {
+    const account = accountData.find((a) => (a.fsrAccount = fsrAccount))
 
-      if (!row) {
-        return res.status(404).json({ message: 'Record not found' })
-      }
+    if (!account) {
+      return res.status(404).json({ message: 'Record not found' })
+    }
 
-      res.json( row )
-    });
+    res.json(account)
   }
   else
     return res.status(400).json({ error: "Invalid or missing parameter" })
@@ -71,20 +48,18 @@ router.get('/:id', (req, res) => {
 
 // Update a record by ID
 router.put('/:id', (req, res) => {
-  const fsrAccount = req.params.id
+  const fsrAccount = Number(req.params.id)
   const { name, currency, walletAddress } = req.body
 
-  console.log(`Attempting update with id: ${fsrAccount}` )
-  if( fsrAccount && name && currency && walletAddress ) {
-    // NOTE: the async function is require to retrieve the updated row count!
-    let query = 'UPDATE accounts SET name = ?, currency = ?, walletAddress = ? WHERE fsrAccount = ?'
-    db.run(query, [name, currency, walletAddress, fsrAccount], async function (err) {
-      if (err) {
-        return res.status(500).json({ error: err.message })
-      }
+  console.log(`Attempting update with id: ${fsrAccount}`)
+  if (fsrAccount && name && currency && walletAddress) {
+    const origCount = accountData.length
+    accountData = accountData.filter((a) => (a.fsrAccount != fsrAccount))
+    const deletedCount = origCount - accountData.length
 
-      res.json({ message: `Records updated: ${this.changes}` })
-    })
+    accountData.push({ fsrAccount: fsrAccount, name: name, currency: currency, walletAddress: walletAddress })
+
+    res.json({ message: `Records replaced: ${deletedCount}` })
   }
   else
     return res.status(400).json({ error: "Invalid or missing parameter" })
@@ -94,15 +69,15 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const fsrAccount = req.params.id
 
-  if( fsrAccount ) {
-    // Delete data for a specific ID from the table
-    db.run('DELETE FROM accounts WHERE fsrAccount = ?', [fsrAccount], async function (err) {
-      if (err) {
-        return res.status(500).json({ error: err.message })
-      }
+  if (fsrAccount) {
+    const origCount = accountData.length
+    accountData = accountData.filter((a) => (a.fsrAccount != fsrAccount))
 
-      res.json({ message: `Records deleted: ${this.changes}` })
-    })
+    if (origCount == accountData.length) {
+      return res.status(404).json({ message: 'Record not found' })
+    }
+
+    res.json({ message: `Records deleted: ${origCount - accountData.length}` })
   }
   else
     return res.status(400).json({ error: "Invalid or missing parameter" })
